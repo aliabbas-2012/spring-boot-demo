@@ -1,4 +1,4 @@
-package com.test.demo2;
+package com.test.demo2.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
+@Entity(name = "Customer")
 public class Customer {
 
     @Id

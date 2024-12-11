@@ -1,10 +1,14 @@
-package com.test.demo2;
+package com.test.demo2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import com.test.demo2.models.Customer;
+import com.test.demo2.respnose.ResponseHandler;
+import com.test.demo2.respositery.CustomerRepository;
 
 import jakarta.validation.Valid;
 
