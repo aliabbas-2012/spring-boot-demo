@@ -1,5 +1,6 @@
 package com.test.demo2.controllers;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Object> createCustomer(
+        @NotNull
         @Valid 
         @RequestBody 
         Customer customer, BindingResult bindingResult) {
