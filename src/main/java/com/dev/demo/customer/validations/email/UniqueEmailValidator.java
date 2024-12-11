@@ -1,23 +1,22 @@
-package com.test.demo2.validators;
+package com.dev.demo.customer.validations.email;
 
-import com.test.demo2.interfaces.CorrectEmail;
-import com.test.demo2.models.Customer;
+import com.dev.demo.customer.models.Customer;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.test.demo2.respositery.CustomerRepository;
+import com.dev.demo.customer.respositery.CustomerRepository;
 
 import java.util.Optional;
 
 @Component
-public class UniqueEmailValidator implements ConstraintValidator<CorrectEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
     @Autowired
     private CustomerRepository repository;
 
     @Override
-    public void initialize(CorrectEmail constraintAnnotation) {
+    public void initialize(UniqueEmail constraintAnnotation) {
         // You can perform initialization here if needed
     }
 

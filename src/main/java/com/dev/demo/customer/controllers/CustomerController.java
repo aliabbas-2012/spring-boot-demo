@@ -1,4 +1,4 @@
-package com.test.demo2.controllers;
+package com.dev.demo.customer.controllers;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.test.demo2.interfaces.CorrectEmail;
-import com.test.demo2.models.Customer;
-import com.test.demo2.respnose.ResponseHandler;
-import com.test.demo2.respositery.CustomerRepository;
+import com.dev.demo.customer.models.Customer;
+import com.dev.demo.customer.respnose.ResponseHandler;
+import com.dev.demo.customer.respositery.CustomerRepository;
 
 import jakarta.validation.Valid;
 

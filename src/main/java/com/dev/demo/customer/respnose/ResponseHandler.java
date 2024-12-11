@@ -1,4 +1,4 @@
-package com.test.demo2.respnose;
+package com.dev.demo.customer.respnose;
 
 import java.util.HashMap;
 import java.util.Map;
