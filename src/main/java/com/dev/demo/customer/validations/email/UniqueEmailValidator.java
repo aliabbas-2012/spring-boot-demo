@@ -1,5 +1,6 @@
 package com.dev.demo.customer.validations.email;
 
+import com.dev.demo.customer.dto.CustomerRequest;
 import com.dev.demo.customer.models.Customer;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -10,7 +11,7 @@ import com.dev.demo.customer.respositery.CustomerRepository;
 import java.util.Optional;
 
 @Component
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, CustomerRequest> {
 
     @Autowired
     private CustomerRepository repository;
@@ -21,15 +22,11 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        if (email == null) {
-            return true; // Null values are handled by @NotNull if needed
-        }
-        System.out.println("=============");
-        System.out.println(email);
+    public boolean isValid(CustomerRequest request, ConstraintValidatorContext constraintValidatorContext) {
+        if (request == null) return true;
 
         try {
-            Optional<Customer> customer = repository.findByEmail(email);
+            Optional<Customer> customer = repository.findByEmail(request.email());
             return !customer.isPresent();
         } catch (NullPointerException e) {
             return true;

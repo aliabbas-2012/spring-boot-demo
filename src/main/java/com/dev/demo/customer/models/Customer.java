@@ -30,8 +30,8 @@ public class Customer {
     @Column(name = "father_name", nullable = false)
     private String fatherName;
 
-    @Email(message = "Email should be valid")
     @Column(unique = true)
+    @Email(message = "Email should be valid")
     @UniqueEmail(message = "Email Should be unique")
     private String email;
 
