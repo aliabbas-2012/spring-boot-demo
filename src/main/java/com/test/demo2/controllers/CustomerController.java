@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import com.test.demo2.interfaces.CorrectEmail;
 import com.test.demo2.models.Customer;
 import com.test.demo2.respnose.ResponseHandler;
 import com.test.demo2.respositery.CustomerRepository;
@@ -36,16 +37,18 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createCustomer(@RequestBody @Valid Customer customer, BindingResult bindingResult) {
-        
-        if(bindingResult.hasErrors()){
-            Map<String, Object> errors = new HashMap<String, Object>();
-            bindingResult.getAllErrors().forEach(error -> {
-                errors.put(error.getObjectName(), error.getDefaultMessage());
-            });
-            return ResponseHandler.generateResponse("Looks like you missed a field. Please complete all sections.", HttpStatus.BAD_REQUEST, errors);
-        }
-        return ResponseHandler.generateResponse("Customer registered successfully!", HttpStatus.OK, customerRepository.save(customer));
+    public ResponseEntity<Object> createCustomer(
+        @Valid 
+        @RequestBody 
+        Customer customer, BindingResult bindingResult) {
+            if(bindingResult.hasErrors()){
+                Map<String, Object> errors = new HashMap<String, Object>();
+                bindingResult.getAllErrors().forEach(error -> {
+                    errors.put(error.getObjectName(), error.getDefaultMessage());
+                });
+                return ResponseHandler.generateResponse("Looks like you missed a field. Please complete all sections.", HttpStatus.BAD_REQUEST, errors);
+            }
+            return ResponseHandler.generateResponse("Customer registered successfully!", HttpStatus.OK, customerRepository.save(customer));
     }
 
     @PutMapping("/{id}")
@@ -53,10 +56,8 @@ public class CustomerController {
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()) {
             Customer existingCustomer = customer.get();
-            existingCustomer.setFirstName(updatedCustomer.getFirstName());
-            existingCustomer.setLastName(updatedCustomer.getLastName());
-            existingCustomer.setEmail(updatedCustomer.getEmail());
-            return customerRepository.save(existingCustomer);
+            updatedCustomer.setId(existingCustomer.getId());
+            return customerRepository.save(updatedCustomer);
         }
         return null;
     }

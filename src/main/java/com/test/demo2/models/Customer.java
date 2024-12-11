@@ -1,4 +1,6 @@
 package com.test.demo2.models;
+import com.test.demo2.interfaces.CorrectEmail;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,10 +23,16 @@ public class Customer {
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
+    
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "father_name", nullable = false)
+    private String fatherName;
+
     @Email(message = "Email should be valid")
     @Column(unique = true)
+    @CorrectEmail(message = "Email Should be unique")
     private String email;
+
 }
