@@ -51,6 +51,8 @@ public class ErrorHandler {
 
         Map<String, String> errors = new HashMap<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            System.out.println("--------violation-------");
+            System.out.println(violation.getMessage());
             String[] validation = violation.getMessage().split(":");
             errors.put(validation[0], validation[1]);
         }

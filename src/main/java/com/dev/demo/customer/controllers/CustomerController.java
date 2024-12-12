@@ -7,6 +7,7 @@ import com.dev.demo.customer.service.CustomerService;
 import com.dev.demo.customer.validations.email.UniqueEmail;
 import com.dev.demo.customer.models.Customer;
 import com.dev.demo.customer.respositery.CustomerRepository;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,12 +41,19 @@ public class CustomerController {
     @PostMapping("/customers")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CustomerResponse> createCustomer(
-            @NotNull
             @Valid
             @RequestBody
             @UniqueEmail
             CustomerRequest request) {
         return ResponseEntity.ofNullable(service.saveCustomer(request));
+
+//        CustomerResponse response = service.saveCustomer(request);
+//
+//        if (response != null) {
+//            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
     }
 
     @PutMapping("/customers/{id}")

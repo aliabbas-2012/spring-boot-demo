@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface CustomerMapper {
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
+    
     Customer mapToCustomer(CustomerRequest request);
 
     CustomerResponse mapToCustomerResponse(Customer customer);

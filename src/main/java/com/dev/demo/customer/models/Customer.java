@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,17 +23,21 @@ public class Customer {
     private Long id;
 
     @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "first_name:Must not be blank")
     private String firstName;
     
     @Column(name = "last_name", nullable = false)
+    @NotBlank(message = "last_name:Must not be blank")
     private String lastName;
 
     @Column(name = "father_name", nullable = false)
+    @NotBlank(message = "father_name:Must not be blank")
     private String fatherName;
 
     @Column(unique = true)
-    @Email(message = "Email should be valid")
-    @UniqueEmail(message = "Email Should be unique")
+    @NotBlank(message = "email: Should be required")
+    @Email(message = "email:Email should be valid")
+    @UniqueEmail(message = "email:Email Should be unique")
     private String email;
 
 }

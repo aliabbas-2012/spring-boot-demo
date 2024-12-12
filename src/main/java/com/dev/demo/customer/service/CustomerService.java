@@ -18,7 +18,12 @@ public class CustomerService implements CustomerAPI {
     private final CustomerRepository repository;
 
     public CustomerResponse saveCustomer(CustomerRequest request) {
+
         Customer customer = CustomerMapper.INSTANCE.mapToCustomer(request);
+        System.out.println("Data Save");
+        System.out.println(request.getEmail());
+        System.out.println(request.getFatherName());
+        System.out.println(customer.getFatherName());
         return CustomerMapper.INSTANCE.mapToCustomerResponse(repository.save(customer));
     }
 
