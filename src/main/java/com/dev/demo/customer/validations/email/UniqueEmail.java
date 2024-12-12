@@ -10,7 +10,8 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
 
-    String message() default "Email must be unique.";
+    String message() default "email: Email must be unique.";
+
 
     Class<?>[] groups() default {};
 

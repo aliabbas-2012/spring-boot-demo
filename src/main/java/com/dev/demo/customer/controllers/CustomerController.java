@@ -1,26 +1,20 @@
 package com.dev.demo.customer.controllers;
-
+import java.util.List;
+import java.util.Optional;
 import com.dev.demo.customer.dto.CustomerRequest;
 import com.dev.demo.customer.dto.CustomerResponse;
 import com.dev.demo.customer.service.CustomerService;
 import com.dev.demo.customer.validations.email.UniqueEmail;
+import com.dev.demo.customer.models.Customer;
+import com.dev.demo.customer.respositery.CustomerRepository;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
-import com.dev.demo.customer.models.Customer;
-import com.dev.demo.customer.respnose.ResponseHandler;
-import com.dev.demo.customer.respositery.CustomerRepository;
-
 import jakarta.validation.Valid;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")

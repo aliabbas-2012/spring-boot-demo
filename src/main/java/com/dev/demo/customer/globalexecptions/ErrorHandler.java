@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -50,11 +47,12 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
-    public List<String> handleConstraintValidationExceptions(ConstraintViolationException ex) {
+    public Map<String, String> handleConstraintValidationExceptions(ConstraintViolationException ex) {
 
-        List<String> errors = new ArrayList<>();
+        Map<String, String> errors = new HashMap<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            errors.add(violation.getMessage());
+            String[] validation = violation.getMessage().split(":");
+            errors.put(validation[0], validation[1]);
         }
         return errors;
     }
