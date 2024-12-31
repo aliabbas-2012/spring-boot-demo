@@ -1,8 +1,15 @@
 package com.dev.demo.user.validation.payload;
 
+import com.dev.demo.validation.custom.validation.PasswordMatching;
+import com.dev.demo.validation.custom.validation.StrongPassword;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 @Data
+@PasswordMatching(
+        password = "password",
+        confirmPassword = "confirmPassword",
+        message = "Password and Confirm Password must be matched!"
+)
 public class SignupRequest {
 
     @NotBlank(message = "Name is required.")
@@ -15,5 +22,11 @@ public class SignupRequest {
 
     private String phoneNumber;
     private String address;
+
+
+    @StrongPassword
+    private String password;
+
+    private String confirmPassword;
 
 }
