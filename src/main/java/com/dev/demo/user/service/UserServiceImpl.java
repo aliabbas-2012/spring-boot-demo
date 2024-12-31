@@ -5,7 +5,9 @@ import com.dev.demo.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,10 +35,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateEntity(Long id, User entity) {
+    public User updateEntity(Long id, User payload) {
         if (repository.existsById(id)) {
-            entity.setId(id);
-            return repository.save(entity);
+            User existingEntity = repository.findById(id).orElse(null);
+            payload.setId(id);
+            updateNonNullFields(payload, existingEntity);
+            return repository.save(Objects.requireNonNull(existingEntity));
         }
         return null;
     }
@@ -44,5 +48,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteEntity(Long id) {
         repository.deleteById(id);
+    }
+
+    private void updateNonNullFields(Object source, Object target) {
+        Field[] fields = source.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            try {
+                field.setAccessible(true);
+                Object value = field.get(source);
+                if (value != null) { // Only update non-null fields
+                    Field targetField = target.getClass().getDeclaredField(field.getName());
+                    targetField.setAccessible(true);
+                    targetField.set(target, value);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // Log error or handle exceptions as needed
+                System.err.println("Field update failed: " + field.getName());
+            }
+        }
     }
 }

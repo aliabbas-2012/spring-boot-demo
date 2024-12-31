@@ -4,6 +4,7 @@ import com.dev.demo.user.mapper.UserMapper;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.repository.UserRepository;
 import com.dev.demo.user.service.UserService;
+import com.dev.demo.user.validation.payload.CreateUpdateRequest;
 import com.dev.demo.user.validation.payload.SignupRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,29 @@ public class UserController {
         return service.getEntityById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createEntity(@Valid @RequestBody SignupRequest signUpRequest) {
-        User user = UserMapper.INSTANCE.toUser(signUpRequest);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody SignupRequest signUpRequest) {
+        User user = UserMapper.INSTANCE.toRegister(signUpRequest);
         service.createEntity(user);
 
         return new ResponseEntity<>("User registered Successfully!", HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<?> createEntity(@Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
+        User user = UserMapper.INSTANCE.toUser(createUpdateRequest);
+        service.createEntity(user);
+
+        return new ResponseEntity<>("User created Successfully!", HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
-    public User updateEntity(@PathVariable Long id, @RequestBody User entity) {
-        return service.updateEntity(id, entity);
+    public ResponseEntity<?> updateEntity(@PathVariable Long id, @RequestBody CreateUpdateRequest createUpdateRequest) {
+
+        User user = UserMapper.INSTANCE.toUser(createUpdateRequest);
+
+        service.updateEntity(id, user);
+        return new ResponseEntity<>("User updated Successfully!", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
