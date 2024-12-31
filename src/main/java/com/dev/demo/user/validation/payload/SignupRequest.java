@@ -1,7 +1,8 @@
 package com.dev.demo.user.validation.payload;
 
 import jakarta.validation.constraints.*;
-
+import lombok.Data;
+@Data
 public class SignupRequest {
 
     @NotBlank(message = "Name is required.")
@@ -11,5 +12,8 @@ public class SignupRequest {
     @NotEmpty(message = "The email is required.")
     @Email(message = "The email is not a valid email.")
     private String email;
+
+    private String phoneNumber;
+    private String address;
 
 }
