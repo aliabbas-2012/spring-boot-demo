@@ -1,8 +1,5 @@
 package com.dev.demo.user.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -14,7 +11,9 @@ public class User {
     private Long id;
 
     private String name;
+    @Column(unique=true)
     private String email;
+    @Column(unique=true)
     private String phoneNumber;
     private String address;
     private String password;

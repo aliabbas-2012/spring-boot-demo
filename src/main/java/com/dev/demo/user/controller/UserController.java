@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEntity(@PathVariable Long id, @RequestBody CreateUpdateRequest createUpdateRequest) {
+    public ResponseEntity<?> updateEntity(@PathVariable Long id, @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
 
         User user = UserMapper.INSTANCE.toUser(createUpdateRequest);
 
