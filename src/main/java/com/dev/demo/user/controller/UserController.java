@@ -6,6 +6,8 @@ import com.dev.demo.user.repository.UserRepository;
 import com.dev.demo.user.service.UserService;
 import com.dev.demo.user.validation.payload.CreateUpdateRequest;
 import com.dev.demo.user.validation.payload.SignupRequest;
+import com.dev.demo.validation.custom.validation.Unique;
+import jakarta.validation.Constraint;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ public class UserController {
 
 
     @Autowired
-    public UserController(UserService service, UserRepository userRepository) {
+    public UserController(UserService service) {
         this.service = service;
     }
 
@@ -53,10 +55,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEntity(@PathVariable Long id, @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
+    public ResponseEntity<?> updateEntity(@PathVariable Long id,
+        @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
 
         User user = UserMapper.INSTANCE.toUser(createUpdateRequest);
-
         service.updateEntity(id, user);
         return new ResponseEntity<>("User updated Successfully!", HttpStatus.OK);
     }

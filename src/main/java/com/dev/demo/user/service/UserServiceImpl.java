@@ -2,6 +2,7 @@ package com.dev.demo.user.service;
 
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.repository.UserRepository;
+import org.springframework.web.context.request.WebRequest;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,23 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService, FieldValueExists {
 
     private final UserRepository repository;
-    private final UserRepository userRepository;
     private final Map<String, Method> methodCache = new HashMap<>();
+    private final WebRequest webRequest;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserRepository userRepository) {
+    public UserServiceImpl(UserRepository repository, WebRequest webRequest) {
         this.repository = repository;
-        this.userRepository = userRepository;
+        this.webRequest = webRequest;
+    }
+
+
+    public Long getUserIdFromRequest() {
+        String requestUri = webRequest.getDescription(false); // false excludes scheme info like "http://"
+        // Extract the last segment of the URI (e.g., '1' from '/api/users/1')
+        String path = requestUri.substring(requestUri.indexOf("/api/users/") + "/api/users/".length());
+        String id = path.contains("/") ? path.substring(0, path.indexOf("/")) : path;
+
+        return  Long.parseLong(id);
     }
 
     @Override
@@ -64,11 +75,12 @@ public class UserServiceImpl implements UserService, FieldValueExists {
             return false; // Skip validation for null or empty fields
         }
 
-        String methodName = "existsBy" + capitalize(fieldName);
-        Method method = userRepository.getClass().getMethod(methodName, String.class);
+        String methodName = "existsBy" + capitalize(fieldName)+"AndIdNot";
+        System.out.println(methodName);
+        Method method = repository.getClass().getMethod(methodName, String.class, Long.class);
 
         // Dynamically invoke the method with the provided value
-        return !(boolean) method.invoke(userRepository, value.toString());
+        return !(boolean) method.invoke(repository, value.toString(), getUserIdFromRequest());
     }
 
     // Helper method to capitalize the first letter of a string

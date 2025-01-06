@@ -7,9 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
+@Component("Request")
 public class CreateUpdateRequest {
+
+    private Long id; // For update scenarios
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 20, message = "The name must be from 3 to 20 characters.")

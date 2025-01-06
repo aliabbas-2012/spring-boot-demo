@@ -2,10 +2,12 @@ package com.dev.demo.validation.custom.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-
 import java.lang.reflect.InvocationTargetException;
+import com.dev.demo.user.validation.payload.CreateUpdateRequest;
+
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
@@ -14,7 +16,6 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     private String serviceName;
     private String fieldName;
-    private String idField;
 
     @Override
     public void initialize(Unique annotation) {
@@ -24,13 +25,14 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return true; // Skip null values
-        }
+
+
         Object serviceBean = applicationContext.getBean(serviceName);
         if (!(serviceBean instanceof FieldValueExists service)) {
             throw new IllegalArgumentException("Service must implement UniqueFieldService interface");
         }
+
+
         try {
             return service.fieldValueExists(value, fieldName);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
