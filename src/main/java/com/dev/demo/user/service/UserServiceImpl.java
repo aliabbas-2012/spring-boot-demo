@@ -33,7 +33,9 @@ public class UserServiceImpl implements UserService, FieldValueExists {
         // Extract the last segment of the URI (e.g., '1' from '/api/users/1')
         String path = requestUri.substring(requestUri.indexOf("/api/users/") + "/api/users/".length());
         String id = path.contains("/") ? path.substring(0, path.indexOf("/")) : path;
-
+        if (id.isEmpty() || !id.matches("\\d+")) {
+            return 0L; // Return 0 if ID is missing or invalid
+        }
         return  Long.parseLong(id);
     }
 
@@ -76,7 +78,6 @@ public class UserServiceImpl implements UserService, FieldValueExists {
         }
 
         String methodName = "existsBy" + capitalize(fieldName)+"AndIdNot";
-        System.out.println(methodName);
         Method method = repository.getClass().getMethod(methodName, String.class, Long.class);
 
         // Dynamically invoke the method with the provided value
