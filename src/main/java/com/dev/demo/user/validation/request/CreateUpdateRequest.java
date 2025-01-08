@@ -1,15 +1,15 @@
 package com.dev.demo.user.validation.request;
 
-import com.dev.demo.security.login.models.Role;
-import com.dev.demo.validation.custom.validation.StrongPassword;
-import com.dev.demo.validation.custom.validation.Unique;
+import java.util.Set;
+import org.hibernate.validator.constraints.UniqueElements;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import com.dev.demo.validation.custom.validation.StrongPassword;
+import com.dev.demo.validation.custom.validation.Unique;
 import lombok.Data;
 
-import java.util.Set;
 
 @Data
 public class CreateUpdateRequest {
@@ -38,7 +38,8 @@ public class CreateUpdateRequest {
     @StrongPassword
     protected String password;
 
-    @NotEmpty(message = "one role is required atleast.")
+    @NotEmpty(message = "one role is required least.")
+    @UniqueElements
     private Set<String> requestedRoles;
 
 }

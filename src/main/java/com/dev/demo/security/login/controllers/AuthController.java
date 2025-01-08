@@ -1,12 +1,9 @@
 package com.dev.demo.security.login.controllers;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -18,14 +15,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import com.dev.demo.security.login.models.ERole;
-import com.dev.demo.security.login.models.Role;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.LoginRequest;
 import com.dev.demo.user.validation.request.SignupRequest;
 import com.dev.demo.security.login.payload.response.UserInfoResponse;
-import com.dev.demo.security.login.payload.response.MessageResponse;
+import com.dev.demo.response.MessageResponse;
 import com.dev.demo.security.login.security.jwt.JwtUtils;
 import com.dev.demo.security.login.security.services.UserDetailsImpl;
 
@@ -77,7 +71,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-
 
         // Create new user's account
         signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
