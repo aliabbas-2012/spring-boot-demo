@@ -1,7 +1,10 @@
 package com.dev.demo.user.service;
 
+import com.dev.demo.security.login.models.ERole;
+import com.dev.demo.security.login.models.Role;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.repository.UserRepository;
+import com.dev.demo.security.login.repository.RoleRepository;
 import org.springframework.web.context.request.WebRequest;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +12,19 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService, FieldValueExists {
 
-    private final UserRepository repository;
-    private final Map<String, Method> methodCache = new HashMap<>();
-    private final WebRequest webRequest;
+    @Autowired
+    UserRepository repository;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, WebRequest webRequest) {
-        this.repository = repository;
-        this.webRequest = webRequest;
-    }
+    WebRequest webRequest;
+
+    @Autowired
+    RoleRepository roleRepository;
 
 
     public Long getUserIdFromRequest() {
@@ -49,20 +48,49 @@ public class UserServiceImpl implements UserService, FieldValueExists {
         return repository.findById(id).orElse(null);
     }
 
+
     @Override
-    public User createEntity(User entity) {
-        return repository.save(entity);
+    public void createEntity(User entity, Set<String> requestedRoles) {
+        Set<Role> roles = new HashSet<Role>();
+        if (requestedRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+
+            requestedRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+        entity.setRoles(roles);
+        repository.save(entity);
     }
 
     @Override
-    public User updateEntity(Long id, User payload) {
+    public void updateEntity(Long id, User payload) {
         if (repository.existsById(id)) {
             User existingEntity = repository.findById(id).orElse(null);
             payload.setId(id);
             updateNonNullFields(payload, existingEntity);
-            return repository.save(Objects.requireNonNull(existingEntity));
+            repository.save(Objects.requireNonNull(existingEntity));
         }
-        return null;
     }
 
     @Override

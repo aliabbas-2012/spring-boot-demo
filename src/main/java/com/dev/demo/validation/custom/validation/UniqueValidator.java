@@ -2,11 +2,9 @@ package com.dev.demo.validation.custom.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import java.lang.reflect.InvocationTargetException;
-import com.dev.demo.user.validation.payload.CreateUpdateRequest;
 
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {

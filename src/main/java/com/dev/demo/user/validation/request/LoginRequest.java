@@ -1,8 +1,6 @@
-package com.dev.demo.user.validation.payload;
+package com.dev.demo.user.validation.request;
 
-import com.dev.demo.validation.custom.validation.StrongPassword;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data

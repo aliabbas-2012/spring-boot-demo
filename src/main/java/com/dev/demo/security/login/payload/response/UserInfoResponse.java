@@ -2,6 +2,9 @@ package com.dev.demo.security.login.payload.response;
 
 import java.util.List;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Data
 public class UserInfoResponse {
     private Long id;
