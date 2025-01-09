@@ -1,7 +1,7 @@
 package com.dev.demo.user.mapper;
 
-import com.dev.demo.security.login.payload.response.UserInfoResponse;
-import com.dev.demo.security.login.security.services.UserDetailsImpl;
+import com.dev.demo.security.auth.payload.response.UserInfoResponse;
+import com.dev.demo.security.auth.security.services.UserDetailsImpl;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.CreateUpdateRequest;
 import com.dev.demo.user.validation.request.SignupRequest;

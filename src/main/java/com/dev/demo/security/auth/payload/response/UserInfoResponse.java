@@ -1,4 +1,4 @@
-package com.dev.demo.security.login.payload.response;
+package com.dev.demo.security.auth.payload.response;
 
 import java.util.List;
 import lombok.Data;

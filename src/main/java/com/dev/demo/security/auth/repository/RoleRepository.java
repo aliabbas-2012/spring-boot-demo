@@ -1,10 +1,10 @@
-package com.dev.demo.security.login.repository;
+package com.dev.demo.security.auth.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.dev.demo.security.login.models.Role;
-import com.dev.demo.security.login.models.ERole;
+import com.dev.demo.security.auth.models.Role;
+import com.dev.demo.security.auth.models.ERole;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

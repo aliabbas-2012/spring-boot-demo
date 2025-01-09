@@ -9,6 +9,6 @@ public interface UserService {
     List<User> getAllEntities();
     User getEntityById(Long id);
     void createEntity(User entity, Set<String> requestedRoles);
-    void updateEntity(Long id, User payload);
+    void updateEntity(Long id, User payload, Set<String> requestedRoles) ;
     void deleteEntity(Long id);
 }

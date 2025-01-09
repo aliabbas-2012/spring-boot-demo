@@ -1,10 +1,10 @@
 package com.dev.demo.user.service;
 
-import com.dev.demo.security.login.models.ERole;
-import com.dev.demo.security.login.models.Role;
+import com.dev.demo.security.auth.models.ERole;
+import com.dev.demo.security.auth.models.Role;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.repository.UserRepository;
-import com.dev.demo.security.login.repository.RoleRepository;
+import com.dev.demo.security.auth.repository.RoleRepository;
 import org.springframework.web.context.request.WebRequest;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,43 @@ public class UserServiceImpl implements UserService, FieldValueExists {
 
     @Override
     public void createEntity(User entity, Set<String> requestedRoles) {
+        Set<Role> roles = assignRoles(requestedRoles);
+        entity.setRoles(roles);
+        repository.save(entity);
+    }
+
+    @Override
+    public void updateEntity(Long id, User payload, Set<String> requestedRoles) {
+        if (repository.existsById(id)) {
+            User existingEntity = repository.findById(id).orElse(null);
+            payload.setId(id);
+            updateNonNullFields(payload, existingEntity);
+            Set<Role> roles = assignRoles(requestedRoles);
+            existingEntity.setRoles(roles);
+            repository.save(Objects.requireNonNull(existingEntity));
+        }
+    }
+
+    @Override
+    public void deleteEntity(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public boolean fieldValueExists(Object value, String fieldName)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (value == null || fieldName == null || fieldName.isEmpty()) {
+            return false; // Skip validation for null or empty fields
+        }
+
+        String methodName = "existsBy" + capitalize(fieldName)+"AndIdNot";
+        Method method = repository.getClass().getMethod(methodName, String.class, Long.class);
+
+        // Dynamically invoke the method with the provided value
+        return !(boolean) method.invoke(repository, value.toString(), getUserIdFromRequest());
+    }
+
+    private Set<Role> assignRoles(Set<String> requestedRoles) {
         Set<Role> roles = new HashSet<Role>();
         if (requestedRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -79,37 +116,7 @@ public class UserServiceImpl implements UserService, FieldValueExists {
                 }
             });
         }
-        entity.setRoles(roles);
-        repository.save(entity);
-    }
-
-    @Override
-    public void updateEntity(Long id, User payload) {
-        if (repository.existsById(id)) {
-            User existingEntity = repository.findById(id).orElse(null);
-            payload.setId(id);
-            updateNonNullFields(payload, existingEntity);
-            repository.save(Objects.requireNonNull(existingEntity));
-        }
-    }
-
-    @Override
-    public void deleteEntity(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public boolean fieldValueExists(Object value, String fieldName)
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (value == null || fieldName == null || fieldName.isEmpty()) {
-            return false; // Skip validation for null or empty fields
-        }
-
-        String methodName = "existsBy" + capitalize(fieldName)+"AndIdNot";
-        Method method = repository.getClass().getMethod(methodName, String.class, Long.class);
-
-        // Dynamically invoke the method with the provided value
-        return !(boolean) method.invoke(repository, value.toString(), getUserIdFromRequest());
+        return roles;
     }
 
     // Helper method to capitalize the first letter of a string

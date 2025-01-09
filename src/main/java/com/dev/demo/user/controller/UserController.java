@@ -49,7 +49,8 @@ public class UserController {
         @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
 
         User user = UserMapper.INSTANCE.toUser(createUpdateRequest);
-        service.updateEntity(id, user);
+        Set<String> requestedRoles = createUpdateRequest.getRequestedRoles();
+        service.updateEntity(id, user, requestedRoles);
         return new ResponseEntity<>("User updated Successfully!", HttpStatus.OK);
     }
 
