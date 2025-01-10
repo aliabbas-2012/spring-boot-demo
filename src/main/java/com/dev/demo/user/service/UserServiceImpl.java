@@ -1,16 +1,15 @@
 package com.dev.demo.user.service;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.dev.demo.security.auth.models.ERole;
-import com.dev.demo.security.auth.models.Role;
+import com.dev.demo.auth.models.ERole;
+import com.dev.demo.auth.models.Role;
 import com.dev.demo.base.BaseService;
 import com.dev.demo.user.repository.UserRepository;
-import com.dev.demo.security.auth.repository.RoleRepository;
+import com.dev.demo.auth.repository.RoleRepository;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import com.dev.demo.user.model.User;
 

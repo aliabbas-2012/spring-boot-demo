@@ -1,4 +1,4 @@
-package com.dev.demo.security.auth.security.services;
+package com.dev.demo.auth.security.services;
 
 import java.util.Collection;
 import java.util.List;

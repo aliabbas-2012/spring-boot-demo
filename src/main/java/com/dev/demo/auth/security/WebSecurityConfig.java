@@ -1,4 +1,4 @@
-package com.dev.demo.security.auth.security;
+package com.dev.demo.auth.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.dev.demo.security.auth.security.jwt.AuthEntryPointJwt;
-import com.dev.demo.security.auth.security.jwt.AuthTokenFilter;
-import com.dev.demo.security.auth.security.services.UserDetailsServiceImpl;
+import com.dev.demo.auth.security.jwt.AuthEntryPointJwt;
+import com.dev.demo.auth.security.jwt.AuthTokenFilter;
+import com.dev.demo.auth.security.services.UserDetailsServiceImpl;
 
 @Configuration
 //@EnableWebSecurity

@@ -1,4 +1,4 @@
-package com.dev.demo.security.auth.models;
+package com.dev.demo.auth.models;
 
 import jakarta.persistence.*;
 import lombok.Data;

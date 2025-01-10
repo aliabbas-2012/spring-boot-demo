@@ -1,4 +1,4 @@
-package com.dev.demo.security.auth.security.jwt;
+package com.dev.demo.auth.security.jwt;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.dev.demo.security.auth.controllers;
+package com.dev.demo.auth.controllers;
 
 import java.util.List;
 import java.util.Set;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.LoginRequest;
 import com.dev.demo.user.validation.request.SignupRequest;
-import com.dev.demo.security.auth.response.UserInfoResponse;
+import com.dev.demo.auth.response.UserInfoResponse;
 import com.dev.demo.response.MessageResponse;
-import com.dev.demo.security.auth.security.jwt.JwtUtils;
-import com.dev.demo.security.auth.security.services.UserDetailsImpl;
+import com.dev.demo.auth.security.jwt.JwtUtils;
+import com.dev.demo.auth.security.services.UserDetailsImpl;
 
 import com.dev.demo.user.mapper.UserMapper;
 import com.dev.demo.user.service.UserService;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import com.dev.demo.security.auth.models.Role;
+import com.dev.demo.auth.models.Role;
 
 
 @Entity
