@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.*;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.LoginRequest;
@@ -37,8 +37,7 @@ public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    PasswordEncoder encoder;
+
 
     @Autowired
     JwtUtils jwtUtils;
@@ -73,7 +72,6 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
         // Create new user's account
-        signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
         Set<String> requestedRoles = signUpRequest.getRequestedRoles();
 
         User user = UserMapper.INSTANCE.toRegister(signUpRequest);

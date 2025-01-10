@@ -1,17 +1,19 @@
 package com.dev.demo.user.controller;
 
-import com.dev.demo.user.mapper.UserMapper;
-import com.dev.demo.user.model.User;
-import com.dev.demo.user.service.UserService;
-import com.dev.demo.user.validation.request.CreateUpdateRequest;
+import java.util.List;
+import java.util.Set;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.dev.demo.user.mapper.UserMapper;
+import com.dev.demo.user.model.User;
+import com.dev.demo.user.service.UserService;
+import com.dev.demo.user.validation.request.CreateUpdateRequest;
 
-import java.util.List;
-import java.util.Set;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,6 +37,7 @@ public class UserController {
         return service.getEntityById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createEntity(@Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
         User user = UserMapper.INSTANCE.toUser(createUpdateRequest);

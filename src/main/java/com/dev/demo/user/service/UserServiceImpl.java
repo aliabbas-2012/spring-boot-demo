@@ -1,18 +1,19 @@
 package com.dev.demo.user.service;
 
-import com.dev.demo.security.auth.models.ERole;
-import com.dev.demo.security.auth.models.Role;
-import com.dev.demo.user.model.User;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 import com.dev.demo.user.repository.UserRepository;
 import com.dev.demo.security.auth.repository.RoleRepository;
 import org.springframework.web.context.request.WebRequest;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.dev.demo.security.auth.models.ERole;
+import com.dev.demo.security.auth.models.Role;
+import com.dev.demo.user.model.User;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService, FieldValueExists {
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService, FieldValueExists {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
 
     public Long getUserIdFromRequest() {
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService, FieldValueExists {
     public void createEntity(User entity, Set<String> requestedRoles) {
         Set<Role> roles = assignRoles(requestedRoles);
         entity.setRoles(roles);
+        entity.setPassword(encoder.encode(entity.getPassword()));
         repository.save(entity);
     }
 
@@ -64,6 +69,7 @@ public class UserServiceImpl implements UserService, FieldValueExists {
             updateNonNullFields(payload, existingEntity);
             Set<Role> roles = assignRoles(requestedRoles);
             existingEntity.setRoles(roles);
+            existingEntity.setPassword(encoder.encode(payload.getPassword()));
             repository.save(Objects.requireNonNull(existingEntity));
         }
     }
