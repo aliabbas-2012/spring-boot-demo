@@ -2,6 +2,7 @@ package com.dev.demo.user.controller;
 
 import java.util.List;
 import java.util.Set;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import com.dev.demo.user.mapper.UserMapper;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.service.UserService;
 import com.dev.demo.user.validation.request.CreateUpdateRequest;
+import com.dev.demo.auth.access.AuthorizeOwnership;
 
 
 
@@ -47,6 +49,7 @@ public class UserController {
         return new ResponseEntity<>("User created Successfully!", HttpStatus.CREATED);
     }
 
+    @AuthorizeOwnership(value={"ROLE_ADMIN","ROLE_MOD"})
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEntity(@PathVariable Long id,
         @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {

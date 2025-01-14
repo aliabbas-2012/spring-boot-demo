@@ -51,9 +51,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
+        String jwtToken = jwtUtils.generateTokenFromUser(userDetails.getUsername(),userDetails.getId());
 
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -64,7 +64,7 @@ public class AuthController {
         user.setRoles(roles);
 
         return ResponseEntity
-            .ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+            .ok()
             .body(user);
     }
 
