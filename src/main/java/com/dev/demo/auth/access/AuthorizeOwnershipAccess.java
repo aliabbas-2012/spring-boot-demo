@@ -3,7 +3,6 @@ package com.dev.demo.auth.access;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,14 +11,13 @@ import org.springframework.stereotype.Component;
 import com.dev.demo.base.BaseService;
 
 
-
 @Aspect
 @Component
 public class AuthorizeOwnershipAccess extends BaseService {
 
 
     @Around("@annotation(com.dev.demo.auth.access.AuthorizeOwnership)")
-    public Object validateOwnership(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object performAuthorization(ProceedingJoinPoint joinPoint) throws Throwable {
         // Extract method details
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         AuthorizeOwnership annotation = signature.getMethod().getAnnotation(AuthorizeOwnership.class);
@@ -41,10 +39,6 @@ public class AuthorizeOwnershipAccess extends BaseService {
 
     private boolean validateAllowedRoles(List<String> allowedRoles) {
         List<String> currentUserRoles =  getCurrentUserRoles();
-        System.out.println("=================");
-        System.out.println(allowedRoles);
-        System.out.println(currentUserRoles);
-        System.out.println("--------------------");
 
         for (String element : currentUserRoles) {
             if (allowedRoles.contains(element)) {

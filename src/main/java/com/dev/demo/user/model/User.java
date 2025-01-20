@@ -10,6 +10,7 @@ import com.dev.demo.auth.models.Role;
 
 @Entity
 @Data
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
