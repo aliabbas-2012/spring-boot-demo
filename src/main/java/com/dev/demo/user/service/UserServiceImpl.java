@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import com.dev.demo.validation.custom.validation.FieldValueAuthorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.dev.demo.auth.models.ERole;
 import com.dev.demo.auth.models.Role;
@@ -29,8 +31,8 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
     }
 
     @Override
-    public List<User> getAllEntities() {
-        return repository.fetchAllUsers();
+    public Page<User> getAllEntities(Pageable pageable, String search) {
+        return repository.fetchAllUsers(pageable, search);
     }
 
     @Override

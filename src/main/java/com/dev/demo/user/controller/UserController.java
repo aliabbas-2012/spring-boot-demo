@@ -3,6 +3,10 @@ package com.dev.demo.user.controller;
 import java.util.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,10 +16,12 @@ import com.dev.demo.user.model.User;
 import com.dev.demo.user.service.UserService;
 import com.dev.demo.user.validation.request.CreateUpdateRequest;
 import com.dev.demo.auth.access.AuthorizeOwnership;
+import com.dev.demo.response.PaginationResponseEntity;
+import com.dev.demo.base.BaseController;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController extends BaseController {
 
     private final UserService service;
 
@@ -25,11 +31,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getAllEntities() {
-        return ResponseEntity.ok(Map.of(
-                "total", service.getTotalUsers(),
-                "data", service.getAllEntities()
-        ));
+    public ResponseEntity<?> getAllEntities(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,desc") String[] sort,
+            @RequestParam(defaultValue = "") String search
+    ) {
+        List<Order> orders = getSortOrders(sort);
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

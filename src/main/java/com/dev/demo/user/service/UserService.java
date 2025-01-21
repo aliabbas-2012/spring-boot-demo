@@ -1,13 +1,15 @@
 package com.dev.demo.user.service;
 
-import java.util.List;
+
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.dev.demo.user.model.User;
-import org.springframework.data.jpa.repository.Query;
+
 
 public interface UserService {
     Long getTotalUsers();
-    List<User> getAllEntities();
+    Page<User> getAllEntities(Pageable pageable, String search);
     User getEntityById(Long id);
     void createEntity(User entity, Set<String> requestedRoles);
     void updateEntity(Long id, User payload, Set<String> requestedRoles) ;
