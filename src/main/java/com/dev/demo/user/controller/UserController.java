@@ -39,7 +39,7 @@ public class UserController extends BaseController {
     ) {
         List<Order> orders = getSortOrders(sort);
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
-        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search), HttpStatus.OK);
+        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search));
     }
 
     @GetMapping("/{id}")

@@ -8,9 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 public class PaginationResponseEntity<T> extends ResponseEntity<Map<String, Object>> {
 
-    public PaginationResponseEntity(Page<T> data, HttpStatus status) {
-
-        super(createBody(data), status);
+    public PaginationResponseEntity(Page<T> data) {
+        super(createBody(data), determineStatus(data));
     }
 
     private static <T> Map<String, Object> createBody(Page<T> data) {
