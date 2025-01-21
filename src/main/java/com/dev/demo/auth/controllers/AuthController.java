@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.web.bind.annotation.*;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.LoginRequest;
@@ -51,15 +50,14 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwtToken = jwtUtils.generateTokenFromUser(userDetails.getUsername(),userDetails.getId());
-
-//        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
+//        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
         UserInfoResponse user = UserMapper.INSTANCE.toUserInfoResponse(userDetails);
+        String jwtToken = jwtUtils.generateTokenFromUser(userDetails.getUsername(),userDetails.getId());
         user.setJwtToken(jwtToken);
         user.setRoles(roles);
 

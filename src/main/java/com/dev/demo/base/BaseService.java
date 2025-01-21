@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.dev.demo.auth.security.jwt.JwtUtils;
 import com.dev.demo.auth.security.services.UserDetailsImpl;
+import com.dev.demo.validation.custom.validation.Unique;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 
 
 @Service("BaseService")
-public class BaseService {
+public abstract class BaseService {
 
     @Autowired
     WebRequest webRequest;
@@ -37,6 +38,11 @@ public class BaseService {
             return 0L; // Return 0 if ID is missing or invalid
         }
         return  Long.parseLong(id);
+    }
+
+    protected Boolean isPublicEndPoint() {
+        String requestUri = webRequest.getDescription(false); // false excludes scheme info like "http://"
+        return requestUri.matches("^uri=/api/auth/.*$")  || requestUri.matches("^uri=/api/test/.*$");
     }
 
     // Helper method to capitalize the first letter of a string
@@ -75,9 +81,16 @@ public class BaseService {
         return userDetails.getId();
     }
 
+    protected Boolean getCurrentUserIsEnabled() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return userDetails.isEnabled();
+    }
+
     protected List<String> getCurrentUserRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
     }
+
 }

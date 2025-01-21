@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import com.dev.demo.auth.models.Role;
+import org.hibernate.annotations.ColumnDefault;
 
 
 @Entity
@@ -31,6 +32,10 @@ public class User {
 
     private String address;
     private String password;
+
+    @Column(name="is_active")
+    @ColumnDefault("true")
+    private boolean isActive = true;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

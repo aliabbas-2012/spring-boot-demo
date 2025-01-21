@@ -21,6 +21,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-        return UserDetailsImpl.build(user);
+        if(user.isActive() && !user.getRoles().isEmpty()) {
+            return UserDetailsImpl.build(user);
+        }
+        throw new UsernameNotFoundException("User dont have any assigned role or in-active: " + username);
     }
 }

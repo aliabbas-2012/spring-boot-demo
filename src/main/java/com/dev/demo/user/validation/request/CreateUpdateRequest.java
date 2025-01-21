@@ -1,6 +1,7 @@
 package com.dev.demo.user.validation.request;
 
 import java.util.Set;
+
 import org.hibernate.validator.constraints.UniqueElements;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import com.dev.demo.validation.custom.validation.StrongPassword;
 import com.dev.demo.validation.custom.validation.Unique;
+import com.dev.demo.validation.custom.validation.FieldAuthorization;
 import lombok.Data;
 
 
@@ -40,6 +42,10 @@ public class CreateUpdateRequest {
 
     @NotEmpty(message = "one role is required least.")
     @UniqueElements
+    @FieldAuthorization(service = "UserService", fieldName = "requestedRoles",  message = "You cannot update your role!, unless you are an admin")
     private Set<String> requestedRoles;
+
+    @FieldAuthorization(service = "UserService", fieldName = "isActive", message = "You cannot change your status")
+    private Boolean isActive;
 
 }
