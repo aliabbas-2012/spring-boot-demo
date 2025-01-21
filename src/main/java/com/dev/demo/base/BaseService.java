@@ -3,10 +3,8 @@ package com.dev.demo.base;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.dev.demo.auth.security.jwt.JwtUtils;
 import com.dev.demo.auth.security.services.UserDetailsImpl;
-import com.dev.demo.validation.custom.validation.Unique;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
-
 
 
 @Service("BaseService")
@@ -92,5 +89,4 @@ public abstract class BaseService {
         return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
     }
-
 }
