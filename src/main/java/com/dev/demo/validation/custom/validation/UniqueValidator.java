@@ -1,11 +1,11 @@
 package com.dev.demo.validation.custom.validation;
 
-import com.dev.demo.base.BaseService;
+import java.lang.reflect.InvocationTargetException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import java.lang.reflect.InvocationTargetException;
+import com.dev.demo.base.BaseService;
 
 
 public class UniqueValidator extends BaseService implements ConstraintValidator<Unique, Object>  {

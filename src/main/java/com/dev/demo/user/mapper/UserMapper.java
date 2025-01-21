@@ -1,12 +1,12 @@
 package com.dev.demo.user.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import com.dev.demo.auth.response.UserInfoResponse;
 import com.dev.demo.auth.security.services.UserDetailsImpl;
 import com.dev.demo.user.model.User;
 import com.dev.demo.user.validation.request.CreateUpdateRequest;
 import com.dev.demo.user.validation.request.SignupRequest;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface UserMapper {

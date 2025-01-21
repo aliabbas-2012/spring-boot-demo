@@ -1,7 +1,6 @@
 package com.dev.demo.validation.custom.validation;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 public interface FieldValueAuthorization {
     /**

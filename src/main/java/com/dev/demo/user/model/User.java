@@ -1,4 +1,5 @@
 package com.dev.demo.user.model;
+
 import java.util.Set;
 import java.util.HashSet;
 import jakarta.persistence.*;

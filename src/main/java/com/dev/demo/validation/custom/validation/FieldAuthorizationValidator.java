@@ -1,7 +1,6 @@
 package com.dev.demo.validation.custom.validation;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import com.dev.demo.base.BaseService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -12,7 +11,6 @@ public class FieldAuthorizationValidator extends BaseService implements Constrai
 
     @Autowired
     private ApplicationContext applicationContext;
-
 
     private String serviceName;
     private String fieldName;
