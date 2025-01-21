@@ -23,10 +23,14 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
     @Autowired
     RoleRepository roleRepository;
 
+    @Override
+    public Long getTotalUsers() {
+        return repository.count();
+    }
 
     @Override
     public List<User> getAllEntities() {
-        return repository.findAll();
+        return repository.fetchAllUsers();
     }
 
     @Override

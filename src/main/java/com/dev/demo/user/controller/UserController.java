@@ -1,7 +1,6 @@
 package com.dev.demo.user.controller;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +13,11 @@ import com.dev.demo.user.service.UserService;
 import com.dev.demo.user.validation.request.CreateUpdateRequest;
 import com.dev.demo.auth.access.AuthorizeOwnership;
 
-
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService service;
-
 
     @Autowired
     public UserController(UserService service) {
@@ -29,8 +25,11 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllEntities() {
-        return service.getAllEntities();
+    public ResponseEntity<Map<String, Object>> getAllEntities() {
+        return ResponseEntity.ok(Map.of(
+                "total", service.getTotalUsers(),
+                "data", service.getAllEntities()
+        ));
     }
 
     @GetMapping("/{id}")
@@ -59,6 +58,7 @@ public class UserController {
         return new ResponseEntity<>("User updated Successfully!", HttpStatus.OK);
     }
 
+    @AuthorizeOwnership(value={"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public void deleteEntity(@PathVariable Long id) {
         service.deleteEntity(id);

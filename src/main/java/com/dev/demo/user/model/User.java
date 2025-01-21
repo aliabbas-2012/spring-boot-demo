@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import com.dev.demo.auth.models.Role;
 import org.hibernate.annotations.ColumnDefault;
+import com.dev.demo.auth.models.Role;
 
 
 @Entity
