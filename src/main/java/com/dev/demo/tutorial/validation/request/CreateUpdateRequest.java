@@ -1,6 +1,7 @@
 package com.dev.demo.tutorial.validation.request;
 
 
+import com.dev.demo.validation.custom.validation.FieldAuthorization;
 import com.dev.demo.validation.custom.validation.Unique;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,6 +20,7 @@ public class CreateUpdateRequest {
 
     protected String description;
 
+    @FieldAuthorization(service = "TutorialService", fieldName = "published", message = "You cannot unpublish/publish ")
     private Boolean published;
 
 }

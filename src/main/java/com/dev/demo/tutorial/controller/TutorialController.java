@@ -48,7 +48,7 @@ public class TutorialController extends BaseController {
         return service.getEntityById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping
     public ResponseEntity<?> createEntity(@Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
         Tutorial tutorial = TutorialMapper.INSTANCE.toTutorial(createUpdateRequest);
