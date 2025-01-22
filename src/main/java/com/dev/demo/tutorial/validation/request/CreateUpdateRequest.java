@@ -13,7 +13,7 @@ public class CreateUpdateRequest {
     private Long id; // For update scenarios
 
     @NotBlank(message = "Name is required.")
-    @Size(min = 10, max = 50, message = "The name must be from 3 to 20 characters.")
+    @Size(min = 10, max = 80, message = "The name must be from 10 to 80 characters.")
     @Unique(service = "TutorialService", fieldName = "title", message = "Title must be unique")
     protected String title;
 
