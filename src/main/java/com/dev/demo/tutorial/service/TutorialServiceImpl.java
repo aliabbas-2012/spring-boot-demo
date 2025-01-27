@@ -75,7 +75,7 @@ public class TutorialServiceImpl extends BaseService implements TutorialService,
         Method method = repository.getClass().getMethod(methodName, String.class, Long.class);
 
         // Dynamically invoke the method with the provided value
-        return !(boolean) method.invoke(repository, value.toString(), getIdParameterFromRequest("users"));
+        return !(boolean) method.invoke(repository, value.toString(), getIdParameterFromRequest("tutorials"));
     }
 
     @Override
