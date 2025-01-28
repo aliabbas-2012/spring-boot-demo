@@ -9,7 +9,7 @@ import com.dev.demo.user.model.User;
 
 public interface UserService {
     Long getTotalUsers();
-    Page<User> getAllEntities(Pageable pageable, String search);
+    Page<User> getAllEntities(Pageable pageable, String search, String[] filters);
     User getEntityById(Long id);
     void createEntity(User entity, Set<String> requestedRoles);
     void updateEntity(Long id, User payload, Set<String> requestedRoles) ;

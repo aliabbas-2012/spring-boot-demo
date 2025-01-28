@@ -15,6 +15,7 @@ import com.dev.demo.user.repository.UserRepository;
 import com.dev.demo.auth.repository.RoleRepository;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import com.dev.demo.user.model.User;
+import org.springframework.data.jpa.domain.Specification;
 
 @Service("UserService")
 public class UserServiceImpl extends BaseService implements UserService, FieldValueExists, FieldValueAuthorization {
@@ -31,8 +32,9 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
     }
 
     @Override
-    public Page<User> getAllEntities(Pageable pageable, String search) {
-        return repository.fetchAllUsers(pageable, search);
+    public Page<User> getAllEntities(Pageable pageable, String search, String[] filters) {
+        Specification<User> specification = GenericSpecification.withDynamicFilters(List.of(filters));
+        return repository.findAll(specification, pageable);
     }
 
     @Override
