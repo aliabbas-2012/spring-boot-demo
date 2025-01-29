@@ -53,7 +53,6 @@ public class GenericSpecification<T> {
                 }
             }
 
-            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
-        };
+            return predicates.isEmpty() ? criteriaBuilder.conjunction() : criteriaBuilder.or(predicates.toArray(new Predicate[0]));        };
     }
 }
