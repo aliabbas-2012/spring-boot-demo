@@ -11,7 +11,7 @@ public interface TutorialService {
     Long getTotalTutorials();
     Page<Tutorial> getAllEntities(Pageable pageable, String search);
     Tutorial getEntityById(Long id);
-    void createEntity(Tutorial entity);
-    void updateEntity(Long id, Tutorial payload) ;
+    public Tutorial createEntity(Tutorial entity);
+    Tutorial updateEntity(Long id, Tutorial payload) ;
     void deleteEntity(Long id);
 }

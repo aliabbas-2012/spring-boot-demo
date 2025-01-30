@@ -52,9 +52,9 @@ public class TutorialController extends BaseController {
     @PostMapping
     public ResponseEntity<?> createEntity(@Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
         Tutorial tutorial = TutorialMapper.INSTANCE.toTutorial(createUpdateRequest);
-        service.createEntity(tutorial);
+        Tutorial newTutorial = service.createEntity(tutorial);
 
-        return new ResponseEntity<>("Tutorial created Successfully!", HttpStatus.CREATED);
+        return new ResponseEntity<>(newTutorial, HttpStatus.CREATED);
     }
 
     @AuthorizeOwnership(value={"ROLE_ADMIN","ROLE_MOD"})
@@ -63,8 +63,8 @@ public class TutorialController extends BaseController {
         @Valid @RequestBody CreateUpdateRequest createUpdateRequest) {
 
         Tutorial user = TutorialMapper.INSTANCE.toTutorial(createUpdateRequest);
-        service.updateEntity(id, user);
-        return new ResponseEntity<>("Tutorial updated Successfully!", HttpStatus.OK);
+        Tutorial tutorial = service.updateEntity(id, user);
+        return new ResponseEntity<>(tutorial, HttpStatus.OK);
     }
 
     @AuthorizeOwnership(value={"ROLE_ADMIN"})

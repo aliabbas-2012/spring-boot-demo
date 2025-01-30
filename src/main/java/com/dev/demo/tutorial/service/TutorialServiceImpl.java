@@ -4,9 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-import com.dev.demo.auth.models.ERole;
 import com.dev.demo.auth.repository.RoleRepository;
 import com.dev.demo.base.BaseService;
 import com.dev.demo.tutorial.model.Tutorial;
@@ -45,18 +43,19 @@ public class TutorialServiceImpl extends BaseService implements TutorialService,
     
 
     @Override
-    public void createEntity(Tutorial entity) {
-        repository.save(entity);
+    public Tutorial createEntity(Tutorial entity) {
+        return repository.save(entity);
     }
 
     @Override
-    public void updateEntity(Long id, Tutorial payload) {
+    public Tutorial updateEntity(Long id, Tutorial payload) {
         if (repository.existsById(id)) {
             Tutorial existingEntity = repository.findById(id).orElse(null);
             payload.setId(id);
             updateNonNullFields(payload, existingEntity);
-            repository.save(Objects.requireNonNull(existingEntity));
+            return repository.save(Objects.requireNonNull(existingEntity));
         }
+        return payload;
     }
 
     @Override
