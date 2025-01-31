@@ -3,11 +3,11 @@ package com.dev.demo.user.service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import com.dev.demo.validation.custom.validation.FieldValueAuthorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.domain.Specification;
 import com.dev.demo.auth.models.ERole;
 import com.dev.demo.auth.models.Role;
 import com.dev.demo.base.BaseService;
@@ -15,7 +15,7 @@ import com.dev.demo.user.repository.UserRepository;
 import com.dev.demo.auth.repository.RoleRepository;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import com.dev.demo.user.model.User;
-import org.springframework.data.jpa.domain.Specification;
+import com.dev.demo.validation.custom.validation.FieldValueAuthorization;
 
 @Service("UserService")
 public class UserServiceImpl extends BaseService implements UserService, FieldValueExists, FieldValueAuthorization {
@@ -33,7 +33,7 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
 
     @Override
     public Page<User> getAllEntities(Pageable pageable, String search, String[] filters) {
-        Specification<User> specification = GenericSpecification.withDynamicFilters(List.of(filters));
+        Specification<User> specification = GenericSpecification.build(List.of(filters), search);
         return repository.findAll(specification, pageable);
     }
 
