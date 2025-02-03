@@ -3,6 +3,8 @@ package com.dev.demo.user.service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+
+import com.dev.demo.utility.GenericSpecification;
 import com.dev.demo.validation.custom.validation.FieldValueAuthorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,8 +34,8 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
     }
 
     @Override
-    public Page<User> getAllEntities(Pageable pageable, String search, String[] filters) {
-        Specification<User> specification = GenericSpecification.withDynamicFilters(List.of(filters));
+    public Page<User> getAllEntities(Pageable pageable, String search, String[] filters, String[] searchColumns) {
+        Specification<User> specification = GenericSpecification.build(List.of(filters), search, List.of(searchColumns));
         return repository.findAll(specification, pageable);
     }
 
