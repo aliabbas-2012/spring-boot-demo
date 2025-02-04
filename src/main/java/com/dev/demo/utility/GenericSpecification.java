@@ -1,7 +1,7 @@
 package com.dev.demo.utility;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.*;
 
@@ -19,7 +19,9 @@ public class GenericSpecification<T> {
                 applyFilters(root, criteriaBuilder, filterStrings, predicates);
             }
 
-            return predicates.isEmpty() ? criteriaBuilder.conjunction() : criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty()
+                    ? criteriaBuilder.conjunction()
+                    : criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 
@@ -31,8 +33,8 @@ public class GenericSpecification<T> {
             String fieldName = parts[0];
             String operator = parts[1];
 
-            Path<String> fieldPath = root.get(fieldName);
-            predicates.add(FilterUtils.getSearchPredicate(criteriaBuilder, fieldPath, search, operator));
+            Path<?> fieldPath = root.get(fieldName);
+            predicates.add(FilterUtils.getTypedPredicate(criteriaBuilder, fieldPath, search, operator));
         });
     }
 
@@ -40,11 +42,9 @@ public class GenericSpecification<T> {
         filterStrings.forEach(filter -> {
             String[] parts = FilterUtils.splitFilter(filter);
             if (parts == null) throw new IllegalArgumentException("Invalid filter format: " + filter);
-            predicates.add(getPredicate(root, criteriaBuilder, parts[0], parts[1], parts[2]));
-        });
-    }
 
-    private static <T> Predicate getPredicate(Root<T> root, CriteriaBuilder criteriaBuilder, String field, String operator, String value) {
-        return criteriaBuilder.like(root.get(field), OperatorHelper.applyLikeOperator(value, operator));
+            Path<?> fieldPath = root.get(parts[0]);
+            predicates.add(FilterUtils.getTypedPredicate(criteriaBuilder, fieldPath, parts[2], parts[1]));
+        });
     }
 }
