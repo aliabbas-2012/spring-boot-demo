@@ -35,7 +35,7 @@ public class UserServiceImpl extends BaseService implements UserService, FieldVa
 
     @Override
     public Page<User> getAllEntities(Pageable pageable, String search, String[] filters, String[] searchColumns) {
-        Specification<User> specification = GenericSpecification.build(List.of(filters), search, List.of(searchColumns));
+        Specification<User> specification = GenericSpecification.build(filters, search, searchColumns, "roles");
         return repository.findAll(specification, pageable);
     }
 

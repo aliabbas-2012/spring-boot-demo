@@ -7,16 +7,20 @@ import jakarta.persistence.criteria.*;
 
 public class GenericSpecification<T> {
 
-    public static <T> Specification<T> build(List<String> filterStrings, String search, List<String> searchColumns) {
+    public static <T> Specification<T> build(String[] filterStrings, String search, String[] searchColumns, String preload) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (FilterUtils.isValid(search) && FilterUtils.isValid(searchColumns)) {
-                applySearch(root, criteriaBuilder, search, searchColumns, predicates);
+            if (FilterUtils.isValid(preload)) {
+                root.fetch(preload, JoinType.LEFT);
             }
 
-            if (FilterUtils.isValid(filterStrings)) {
-                applyFilters(root, criteriaBuilder, filterStrings, predicates);
+            if (FilterUtils.isValid(search) && FilterUtils.isValid(List.of(searchColumns))) {
+                applySearch(root, criteriaBuilder, search, List.of(searchColumns), predicates);
+            }
+
+            if (FilterUtils.isValid(List.of(filterStrings))) {
+                applyFilters(root, criteriaBuilder, List.of(filterStrings), predicates);
             }
 
             return predicates.isEmpty()

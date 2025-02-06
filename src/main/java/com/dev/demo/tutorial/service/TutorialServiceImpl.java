@@ -38,7 +38,7 @@ public class TutorialServiceImpl extends BaseService implements TutorialService,
     @Cacheable("tutorials")
     @Override
     public Page<Tutorial> getAllEntities(Pageable pageable, String search, String[] filters, String[] searchColumns) {
-        Specification<Tutorial> specification = GenericSpecification.build(List.of(filters), search, List.of(searchColumns));
+        Specification<Tutorial> specification = GenericSpecification.build(filters, search, searchColumns, "");
         return repository.findAll(specification, pageable);
     }
 

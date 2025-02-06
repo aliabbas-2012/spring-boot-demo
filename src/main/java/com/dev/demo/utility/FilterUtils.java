@@ -71,6 +71,6 @@ public class FilterUtils {
         String[] fieldParts = fieldOperator.split("\\.", 2);
         if (fieldParts.length != 2) return null;
 
-        return new String[]{fieldParts[0], fieldParts[1], value}; // ["field", "operator", "value"]
+        return new String[]{fieldParts[0], fieldParts[1], value};
     }
 }

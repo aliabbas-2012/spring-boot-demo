@@ -37,7 +37,9 @@ public class UserController extends BaseController {
             @RequestParam(defaultValue = "id,desc") String[] sort,
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "") String[] filters,
-            @RequestParam(defaultValue = "") String[] searchColumns
+            @RequestParam(defaultValue = "") String[] searchColumns,
+            @RequestParam(defaultValue = "") String[] preload
+
     ) {
         List<Order> orders = getSortOrders(sort);
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
