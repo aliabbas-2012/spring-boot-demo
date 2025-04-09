@@ -36,12 +36,15 @@ public class UserController extends BaseController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id,desc") String[] sort,
             @RequestParam(defaultValue = "") String search,
-            @RequestParam(defaultValue = "") String[] filters
+            @RequestParam(defaultValue = "") String[] filters,
+            @RequestParam(defaultValue = "") String[] searchColumns,
+            @RequestParam(defaultValue = "") String[] preload
+
     ) {
         List<Order> orders = getSortOrders(sort);
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
         System.out.println(Arrays.toString(filters));
-        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search, filters));
+        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search, filters, searchColumns));
     }
 
     @GetMapping("/{id}")

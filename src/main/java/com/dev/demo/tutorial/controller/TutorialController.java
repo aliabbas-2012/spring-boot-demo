@@ -36,11 +36,14 @@ public class TutorialController extends BaseController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id,desc") String[] sort,
-            @RequestParam(defaultValue = "") String search
+            @RequestParam(defaultValue = "") String search,
+            @RequestParam(defaultValue = "") String[] filters,
+            @RequestParam(defaultValue = "") String[] searchColumns,
+            @RequestParam(defaultValue = "") String[] preload
     ) {
         List<Order> orders = getSortOrders(sort);
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
-        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search));
+        return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search, filters, searchColumns));
     }
 
     @GetMapping("/{id}")

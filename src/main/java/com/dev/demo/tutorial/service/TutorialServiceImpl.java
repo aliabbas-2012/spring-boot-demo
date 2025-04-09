@@ -9,12 +9,15 @@ import com.dev.demo.auth.repository.RoleRepository;
 import com.dev.demo.base.BaseService;
 import com.dev.demo.tutorial.model.Tutorial;
 import com.dev.demo.tutorial.repository.TutorialRepository;
+import com.dev.demo.user.model.User;
+import com.dev.demo.utility.GenericSpecification;
 import com.dev.demo.validation.custom.validation.FieldValueAuthorization;
 import com.dev.demo.validation.custom.validation.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
@@ -34,8 +37,9 @@ public class TutorialServiceImpl extends BaseService implements TutorialService,
 
     @Cacheable("tutorials")
     @Override
-    public Page<Tutorial> getAllEntities(Pageable pageable, String search) {
-        return repository.fetchAllTutorials(pageable, search);
+    public Page<Tutorial> getAllEntities(Pageable pageable, String search, String[] filters, String[] searchColumns) {
+        Specification<Tutorial> specification = GenericSpecification.build(filters, search, searchColumns, "");
+        return repository.findAll(specification, pageable);
     }
 
     @Override
