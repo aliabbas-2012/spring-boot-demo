@@ -43,7 +43,6 @@ public class UserController extends BaseController {
     ) {
         List<Order> orders = getSortOrders(sort);
         Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
-        System.out.println(Arrays.toString(filters));
         return new PaginationResponseEntity<>(service.getAllEntities(pagingSort, search, filters, searchColumns));
     }
 

@@ -31,6 +31,7 @@ public class FilterUtils {
 
     private static Predicate getStringPredicate(CriteriaBuilder criteriaBuilder, Path<String> fieldPath, String value, String operator) {
         switch (operator.toLowerCase()) {
+
             case "contains": return criteriaBuilder.like(fieldPath, "%" + value + "%");
             case "startswith": return criteriaBuilder.like(fieldPath, value + "%");
             case "endswith": return criteriaBuilder.like(fieldPath, "%" + value);

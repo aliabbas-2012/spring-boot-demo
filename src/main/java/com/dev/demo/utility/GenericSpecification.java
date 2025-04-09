@@ -9,6 +9,7 @@ public class GenericSpecification<T> {
 
     public static <T> Specification<T> build(String[] filterStrings, String search, String[] searchColumns, String preload) {
         return (root, query, criteriaBuilder) -> {
+
             List<Predicate> predicates = new ArrayList<>();
 
             if (FilterUtils.isValid(preload)) {
@@ -16,16 +17,22 @@ public class GenericSpecification<T> {
             }
 
             if (FilterUtils.isValid(search) && FilterUtils.isValid(List.of(searchColumns))) {
-                applySearch(root, criteriaBuilder, search, List.of(searchColumns), predicates);
+                List<Predicate> predicates_or = new ArrayList<>();
+                applySearch(root, criteriaBuilder, search, List.of(searchColumns), predicates_or);
+                predicates.add(criteriaBuilder.and(criteriaBuilder.or(predicates_or.toArray(new Predicate[0]))));
             }
 
             if (FilterUtils.isValid(List.of(filterStrings))) {
-                applyFilters(root, criteriaBuilder, List.of(filterStrings), predicates);
+                List<Predicate> predicates_and = new ArrayList<>();
+                applyFilters(root, criteriaBuilder, List.of(filterStrings), predicates_and);
+                predicates.add(criteriaBuilder.and(criteriaBuilder.and(predicates_and.toArray(new Predicate[0]))));
             }
+
 
             return predicates.isEmpty()
                     ? criteriaBuilder.conjunction()
                     : criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+
         };
     }
 
