@@ -1,8 +1,11 @@
 package com.dev.demo.tutorial.model;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Data
@@ -21,4 +24,9 @@ public class Tutorial {
     @ColumnDefault("false")
     private boolean published = false;
 
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

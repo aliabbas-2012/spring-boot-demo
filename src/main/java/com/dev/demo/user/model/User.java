@@ -1,5 +1,6 @@
 package com.dev.demo.user.model;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.HashSet;
 import jakarta.persistence.*;
@@ -7,8 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import com.dev.demo.auth.models.Role;
-
 
 @Entity
 @Data
@@ -37,6 +39,12 @@ public class User {
     @Column(name="is_active")
     @ColumnDefault("true")
     private boolean isActive = true;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
